@@ -1,0 +1,25 @@
+---
+#info: Execute an ipmitool command and writes a log file
+- name: Run ipmitool
+  connection: local
+  shell: ipmitool -N 4 -I lanplus -U {{ ipmi_user }} -P {{ ipmi_password }} -H {{ ipmi_host }} {{ ipmi_command }}
+  register: shell
+  async: 60
+  poll: 0
+  throttle: 20
+  become: false
+
+- name: Check on an async task
+  connection: local
+  async_status:
+    jid: '{{ shell.ansible_job_id }}'
+  register: job
+  until: job.finished
+  retries: 1000
+  delay: 3
+  become: false
+
+- include_role: name=servermonkey.ww_logger
+  vars:
+    ww_log: '{{ job }}'
+    ww_logfile: 'servermonkey.ipmi_{{ ipmi_log }}'
