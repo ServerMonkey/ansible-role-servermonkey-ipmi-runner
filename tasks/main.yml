@@ -2,7 +2,9 @@
 #info: Execute an ipmitool command and writes a log file
 - name: Run ipmitool
   connection: local
-  shell: ipmitool -N 4 -I lanplus -U {{ ipmi_user }} -P {{ ipmi_password }} -H {{ ipmi_host }} {{ ipmi_command }}
+  vars:
+    ansible_python_interpreter: "{{ ansible_playbook_python }}"
+  shell: ipmitool -N 4 -I lanplus -U {{ im_ipmi_user }} -P {{ im_ipmi_password }} -H {{ im_ipmi_host }} {{ ipmi_command }}
   register: shell
   async: 60
   poll: 0
@@ -11,6 +13,8 @@
 
 - name: Check on an async task
   connection: local
+  vars:
+    ansible_python_interpreter: "{{ ansible_playbook_python }}"
   async_status:
     jid: '{{ shell.ansible_job_id }}'
   register: job
