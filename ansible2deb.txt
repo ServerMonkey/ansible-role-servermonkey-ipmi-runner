@@ -1,1 +1,0 @@
-Depends: ipmitool (>= 1.8)

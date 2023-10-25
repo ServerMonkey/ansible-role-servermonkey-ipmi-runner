@@ -1,0 +1,3 @@
+Version: 0.10
+Depends: ipmitool (>= 1.8)
+Description: Manage and monitor IPMI capable devices
