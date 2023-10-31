@@ -1,3 +1,3 @@
-Version: 0.10
-Depends: ipmitool (>= 1.8)
+Version: 0.11
+Depends: ipmitool (>= 1.8), python3-pyghmi
 Description: Manage and monitor IPMI capable devices
